@@ -6,7 +6,9 @@ import Button from 'react-bootstrap/Button';
 import { loginRequest } from './authConfig';
 import { callMsGraph } from './graph';
 import { ProfileData } from './components/ProfileData';
-
+import Home from './components/Home';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { SignInButton } from './components/SignInButton'; // Make sure the path is correct
 
 /**
  * Renders information about the signed-in user or a button to retrieve data about the user
@@ -49,10 +51,12 @@ const MainContent = () => {
         <div className="App">
             <AuthenticatedTemplate>
                 <ProfileContent />
+                <Home />
             </AuthenticatedTemplate>
 
             <UnauthenticatedTemplate>
                 <h5 className="card-title">Please sign-in to see your profile information.</h5>
+                <SignInButton /> {/* Added SignInButton here */}
             </UnauthenticatedTemplate>
         </div>
     );
@@ -60,8 +64,14 @@ const MainContent = () => {
 
 export default function App() {
     return (
-        <PageLayout>
-            <MainContent />
-        </PageLayout>
+        <Router>
+            <PageLayout>
+                <Routes>
+                    <Route path="/" element={<MainContent />} />
+                    <Route path="/home" element={<Home />} />
+                </Routes>
+            </PageLayout>
+        </Router>
     );
 }
+
